@@ -126,6 +126,17 @@ let flags =
     Cf.noarg_mut "-readme"
       (fun t -> set_once "readme" t.Accum.do_readme true)
       ~doc:Readme.doc;
+    Cf.noarg_mut "-u"
+      (fun _t -> ())
+      ~doc:" ignored [compatibility with diff]" ;
+    Cf.arg_mut "-L"
+      (fun t s ->
+        if !(t.Accum.old_alt_opt) = None
+        then t.Accum.old_alt_opt := Some (Some s)
+        else if !(t.Accum.new_alt_opt) = None
+        then t.Accum.new_alt_opt := Some (Some s)
+        else ())
+      ~doc:"LABEL equivalent to -alt-old/-alt-new [compatibility with diff]" ;
   ]
 ;;
 
